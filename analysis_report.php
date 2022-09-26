@@ -1,7 +1,10 @@
 <?php
 
-if (isset($_POST['request'])) {
-    $request = $_POST['request'];
+if (isset($_GET['request'])) {
+    $request = $_GET['request'];
+    
+    $message = "error";
+    $status = "-1";
     
     require_once "conn.php";
 
@@ -11,7 +14,8 @@ if (isset($_POST['request'])) {
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) <= 0) {
-            echo "failure";
+            $message = "no data";
+            $status = "1";
         } else {
             
             $analysis_report = array();
@@ -19,8 +23,16 @@ if (isset($_POST['request'])) {
                 $analysis_report[] = $row;
             }
 
-            echo json_encode($analysis_report);
+            $message = "data retrived success";
+            $status = "0";
 
+            $json_body = array(
+                "data" => $analysis_report,
+                "message" => $message,
+                "status" => $status
+            );
+    
+            echo $json = json_encode($json_body);
         }
     }
 

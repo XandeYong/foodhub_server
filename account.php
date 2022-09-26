@@ -3,9 +3,13 @@
 if (isset($_POST['request'])) {
     $request = $_POST['request'];
     
+    $message = "error";
+    $status = "-1";
+    
     require_once "conn.php";
 
-    if ($request == "login" && isset($_POST['email']) && isset($_POST['password'])) {
+    if ($request == "login" 
+    && isset($_POST['email']) && isset($_POST['password'])) {
     
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -13,7 +17,8 @@ if (isset($_POST['request'])) {
         $sql = "SELECT * FROM account where email = '$email' && password = '$password' LIMIT 1";
     
         if (!$conn->query($sql)) {
-            echo "failure";
+            $message = "no data";
+            $status = "1";
         } else {
     
             $account = array();
@@ -24,13 +29,22 @@ if (isset($_POST['request'])) {
     
                 $account[] = $row;
             }
+
+            $message = "account retrived success";
+            $status = "0";
     
-            echo json_encode($account);
+            $json_body = array(
+                "data" => $account,
+                "message" => $message,
+                "status" => $status
+            );
+    
+            echo $json = json_encode($json_body);
         }
     
         
-    } else if ($request == "register" && 
-    isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])) {
+    } else if ($request == "register" 
+    && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])) {
     
         $id = $_POST['id'];
         $name = $_POST['name'];
@@ -49,15 +63,24 @@ if (isset($_POST['request'])) {
             $sql = "insert into account(account_id, name, email, password) values('$id', '$name', '$email', '$password')";
         
             if (!$conn->query($sql)) {
-                echo "Fail to register.";
+                $message = "Fail to register.";
+                $status = "-2";
             } else {
-                echo "Register successfully";
+                $message = "Register successfully";
+                $status = "0";
             }
 
         } else {
-            echo "This email has already been registered.";
+            $message = "This email has already been registered.";
+            $status = "1";
         }
 
+        $json_body = array(
+            "message" => $message,
+            "status" => $status
+        );
+
+        echo $json = json_encode($json_body);
     }
 
 
