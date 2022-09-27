@@ -22,7 +22,9 @@ if (isset($_GET['request'])) {
             while ($row = mysqli_fetch_assoc($result)) {
                 
                 $image = $row['image'] . ".jpg";
-                $row['image'] = "http://localhost/foodhub_server/image/" . "news/" . $image;
+                $row['image'] = "http://10.0.2.2/foodhub_server/image/" . "news/" . $image;
+
+                echo $row['image'];
 
                 $news[] = $row;
             }

@@ -34,6 +34,10 @@ if (isset($_GET['request'])) {
     
             echo $json = json_encode($json_body);
         }
+    } else if ($request == 'post') {
+        //...
+    } else if ($request == 'update') {
+        //..
     }
 
     $conn->close();

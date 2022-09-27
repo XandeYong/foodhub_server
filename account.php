@@ -25,7 +25,7 @@ if (isset($_POST['request'])) {
             while($row = mysqli_fetch_assoc($result)) {
                 
                 $image = $row['image'] . ".jpg";
-                $row['image'] = "http://localhost/foodhub_server/image/" . "account/" . $image;
+                $row['image'] = "http://10.0.2.2/foodhub_server/image/" . "account/" . $image;
     
                 $account[] = $row;
             }
@@ -44,15 +44,13 @@ if (isset($_POST['request'])) {
     
         
     } else if ($request == "register" 
-    && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password'])) {
+    && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['accountType']) ) {
     
         $id = $_POST['id'];
         $name = $_POST['name'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+        $type = $_POST['accountType'];
     
         //check account
         $sql = "SELECT * FROM account where email = '$email'";
@@ -60,7 +58,7 @@ if (isset($_POST['request'])) {
         if (!$conn->query($sql)) {
             
             //register
-            $sql = "insert into account(account_id, name, email, password) values('$id', '$name', '$email', '$password')";
+            $sql = "insert into account(account_id, name, email, password, account_type) values('$id', '$name', '$email', '$password', '$account_type')";
         
             if (!$conn->query($sql)) {
                 $message = "Fail to register.";
