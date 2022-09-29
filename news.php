@@ -24,8 +24,6 @@ if (isset($_GET['request'])) {
                 $image = $row['image'] . ".jpg";
                 $row['image'] = "http://10.0.2.2/foodhub_server/image/" . "news/" . $image;
 
-                echo $row['image'];
-
                 $news[] = $row;
             }
 
