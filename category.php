@@ -99,25 +99,24 @@ if (isset($_GET['request'])) {
 
         //Delete Status
         try {
-            
+
             $sql = "DELETE FROM category WHERE category_id = '$categoryID'";
             $result = mysqli_query($conn, $sql);
-    
+
             if (!$result) {
-                $message = "Fail to delete from Remote DB";
+                $message = "Fail to delete from Remote DB : Maybe foreign key issue?";
                 $status = "-2";
             } else {
                 $message = "Successfully deleted from Remote DB";
                 $status = "0";
             }
-            
         } catch (\Throwable $th) {
             //throw $th;
             $message = "Database delete error";
             $status = "-3";
         }
 
-        
+
         $json_body = array(
             "message" => $message,
             "status" => $status
