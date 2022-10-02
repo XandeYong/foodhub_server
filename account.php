@@ -80,14 +80,12 @@ if (isset($_POST['request'])) {
     }
 
 } else if (isset($_GET['request']))
- {  
-    $request = $_GET['request'];  
-    require_once "conn.php";
+{  
+   $request = $_GET['request'];  
+   require_once "conn.php";
 
-    if($request == "registerGetId" && isset($_GET['accountType'])) {
-        $type = $_GET['accountType'];
-    
-        $sql = "SELECT account_id FROM account where account_type = '$type' Order By updated_at Asc";
+   if($request == "registerGetId" && isset($_GET['accountType'])) {
+        $sql = "SELECT account_id FROM account where account_type = '$type' Order By created_at Desc LIMIT 1";
 
         $result = mysqli_query($conn, $sql);
 
@@ -97,6 +95,7 @@ if (isset($_POST['request'])) {
         } else {
             
             $getID;
+
             while ($row = mysqli_fetch_assoc($result)) {
                 $getID = $row;
             }
@@ -111,7 +110,7 @@ if (isset($_POST['request'])) {
             );
 
             echo $json = json_encode($json_body);
-        }
+        } 
 
     } else if ($request == "locationReport") {
         $sql = "SELECT `state`, `account_type` FROM `account` WHERE account_type != 'admin'";
