@@ -1,11 +1,10 @@
 <?php
+$test;
+$message = "error";
+$status = "-1";
 
 if (isset($_GET['request'])) {
     $request = $_GET['request'];
-    
-    $message = "error";
-    $status = "-1";
-
     require_once "conn.php";
 
     if ($request == 'getAll') {
@@ -37,7 +36,22 @@ if (isset($_GET['request'])) {
     }
 
     $conn->close();
+
+} else if (isset($_POST['data'])) {
+    $request = $_POST['data'];
+    $test = $_POST['data'];
+    require_once "conn.php";
+
+    if ($request == 'update') {
+        //update location_report database..
+        
+    }
+
+
+
+    $conn->close();
 }
 
+var_dump($test)
 
 ?>

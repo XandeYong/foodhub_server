@@ -78,16 +78,16 @@ if (isset($_POST['request'])) {
         echo $json = json_encode($json_body);
 
     }
-    }else if (isset($_GET['request']) && isset($_GET['accountType'])){  
-        $request = $_GET['request'];  
+
+} else if (isset($_GET['request']))
+ {  
+    $request = $_GET['request'];  
+    require_once "conn.php";
+
+    if($request == "registerGetId" && isset($_GET['accountType'])) {
         $type = $_GET['accountType'];
-
-        if($request == "registerGetId"){
-      
-
+    
         $sql = "SELECT account_id FROM account where account_type = '$type' Order By updated_at Asc";
-
-        require_once "conn.php";
 
         $result = mysqli_query($conn, $sql);
 
@@ -96,9 +96,9 @@ if (isset($_POST['request'])) {
             $status = "1";
         } else {
             
-           $getID;
+            $getID;
             while ($row = mysqli_fetch_assoc($result)) {
-               $getID = $row;
+                $getID = $row;
             }
 
             $message = "data retrived success";
@@ -109,19 +109,42 @@ if (isset($_POST['request'])) {
                 "message" => $message,
                 "status" => $status
             );
+
+            echo $json = json_encode($json_body);
+        }
+
+    } else if ($request == "locationReport") {
+        $sql = "SELECT `state`, `account_type` FROM `account` WHERE account_type != 'admin'";
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) <= 0) {
+            $message = "no data";
+            $status = "1";
+        } else {
+            
+            $account = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $account[] = $row;
+            }
+
+            $message = "data retrived success";
+            $status = "0";
+
+            $json_body = array(
+                "data" => $account,
+                "message" => $message,
+                "status" => $status
+            );
     
             echo $json = json_encode($json_body);
-        } 
-    }
+        }
 
     }
 
+}
 
-
-    $conn->close();
-
-
-
+$conn->close();
 
 
 ?>
