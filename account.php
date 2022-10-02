@@ -85,7 +85,7 @@ if (isset($_POST['request'])) {
         if($request == "registerGetId"){
       
 
-        $sql = "SELECT account_id FROM account where account_type = '$type' Order By updated_at Asc";
+        $sql = "SELECT account_id FROM account where account_type = '$type' Order By created_at Desc LIMIT 1";
 
         require_once "conn.php";
 
