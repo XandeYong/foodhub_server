@@ -42,7 +42,7 @@ if (isset($_POST['request'])) {
         );
 
         echo $json = json_encode($json_body);
-        
+
     } else if (
         $request == "register"
         && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['accountType'])
