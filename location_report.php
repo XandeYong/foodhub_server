@@ -44,7 +44,37 @@ if (isset($_GET['request'])) {
 
     if ($request == 'update') {
         //update location_report database..
+        $analysisReportID = $_POST['analysisReportID'];
+        $totalUser = $_POST['totalUser'];
+        $totalDonor = $_POST['totalDonor'];
+        $totalDonee = $_POST['totalDonee'];
+        $totalDonation = $_POST['totalDonation'];
+        $totalRequest = $_POST['totalRequest'];
+        $totalNews = $_POST['totalNews'];
+
+        // get the "message" variable from the post request
+// this is the data coming from the Android app
+$message=$_POST["message"]; 
+
+    
+            //Update
+            $sql = "UPDATE analysis_report SET total_user = '$totalUser', total_donor = '$totalDonor', total_donee = '$totalDonee', total_donation = '$totalDonation', total_request  = '$totalRequest', total_news = '$totalNews' WHERE analysis_report_id = '$analysisReportID'";
         
+            if (!$conn->query($sql)) {
+                $message = "Fail to update.";
+                $status = "-2";
+            } else {
+                $message = "Update successfully";
+                $status = "0";
+            }
+
+
+        $json_body = array(
+            "message" => $message,
+            "status" => $status
+        );
+
+        echo $json = json_encode($json_body);
     }
 
 
