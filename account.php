@@ -62,7 +62,7 @@ if (isset($_POST['request'])) {
         if (mysqli_num_rows($result) == 0) {
 
             //register
-            $sql = "insert into account(account_id, name, image, dob, email, password, account_type) values('$id', '$name', '$image', $date, '$email', '$password', '$type')";
+            $sql = "insert into account(account_id, name, image, dob, email, password, account_type) values('$id', '$name', '$image', '$date', '$email', '$password', '$type')";
             $result = mysqli_query($conn, $sql);
 
             $file = './image/account/' . $type . '.jpg';
@@ -109,7 +109,7 @@ if (isset($_POST['request'])) {
         $accountType = $_POST['accountType'];
 
         //Update Status
-        $sql = "UPDATE account SET name = '$accountName', image = '$accountImage', address = '$accountAddress', state = '$accountState', bod = '$accountDOB',
+        $sql = "UPDATE account SET name = '$accountName', image = '$accountImage', address = '$accountAddress', state = '$accountState', dob = '$accountDOB',
         gender = '$accountGender', email = '$accountEmail', password = '$accountPassword', account_type = '$accountType' WHERE account_id = '$accountID'";
 
 
