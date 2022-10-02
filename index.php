@@ -57,6 +57,12 @@
                 </nav>
             </div>
         </div>
+
+        <form action="./category.php" method="POST">
+            <input type="text" name="categoryID" >
+            <input type="text" name="request" value="DeleteCategory">
+            <input type="submit" value="submit">
+        </form>
         
     </div>
 

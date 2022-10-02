@@ -37,7 +37,7 @@ if (isset($_GET['request'])) {
 
     $conn->close();
 
-} else if (isset($_POST['data'])) {
+} else if (isset($_POST['data'])) { //in progress
     $request = $_POST['data'];
     $test = $_POST['data'];
     require_once "conn.php";

@@ -93,24 +93,31 @@ if (isset($_GET['request'])) {
         );
 
         echo $json = json_encode($json_body);
-    } else if (
-        $request == "DeleteCategory"
-        && isset($_POST['categoryID'])
-    ) {
+    } else if ($request == "DeleteCategory" && isset($_POST['categoryID'])) {
 
         $categoryID = $_POST['categoryID'];
 
         //Delete Status
-        $sql = "DELETE FROM category WHERE category_id = '$categoryID'";
-
-
-        if (!$conn->query($sql)) {
-            $message = "Fail to delete from Remote DB";
-            $status = "-2";
-        } else {
-            $message = "Successfully deleted from Remote DB";
-            $status = "0";
+        try {
+            
+            $sql = "DELETE FROM category WHERE category_id = '$categoryID'";
+            $result = mysqli_query($conn, $sql);
+    
+            if ($result) {
+                $message = "Fail to delete from Remote DB";
+                $status = "-2";
+            } else {
+                $message = "Successfully deleted from Remote DB";
+                $status = "0";
+            }
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+            $message = "Database delete error";
+            $status = "-3";
         }
+
+        
         $json_body = array(
             "message" => $message,
             "status" => $status

@@ -62,7 +62,7 @@ if (isset($_POST['request'])) {
         if (mysqli_num_rows($result) == 0) {
 
             //register
-            $sql = "insert into account(account_id, name, image, dob, email, password, account_type) values('$id', '$name', '$image', $date, '$email', '$password', '$type')";
+            $sql = "insert into account(account_id, name, image, dob, email, password, account_type) values('$id', '$name', '$image', '$date', '$email', '$password', '$type')";
             $result = mysqli_query($conn, $sql);
 
             $file = './image/account/' . $type . '.jpg';
