@@ -58,9 +58,9 @@
             </div>
         </div>
 
-        <form action="./category.php" method="POST">
-            <input type="text" name="categoryID" >
-            <input type="text" name="request" value="DeleteCategory">
+        <form action="./location_report.php" method="POST">
+            <input type="text" name="data" >
+            <input type="text" name="request" value="update">
             <input type="submit" value="submit">
         </form>
         

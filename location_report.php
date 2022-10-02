@@ -39,7 +39,7 @@ if (isset($_GET['request'])) {
 
 } else if (isset($_POST['data'])) { //in progress
     $request = $_POST['data'];
-    $test = $_POST['data'];
+    
     require_once "conn.php";
 
     if ($request == 'update') {
@@ -68,6 +68,7 @@ $message=$_POST["message"];
                 $status = "0";
             }
 
+        }
 
         $json_body = array(
             "message" => $message,
@@ -75,13 +76,10 @@ $message=$_POST["message"];
         );
 
         echo $json = json_encode($json_body);
-    }
 
 
 
     $conn->close();
 }
-
-var_dump($test)
 
 ?>
