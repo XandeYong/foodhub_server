@@ -18,7 +18,9 @@ if (isset($_POST['request'])) {
 
         $sql = "SELECT * FROM account where email = '$email' && password = '$password' LIMIT 1";
 
-        if (!$conn->query($sql)) {
+        $result = mysqli_query($conn, $sql);
+
+        if ((mysqli_num_rows($result) <= 0)) {
             $message = "no data";
             $status = "1";
         } else {
