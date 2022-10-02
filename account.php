@@ -102,7 +102,7 @@ if (isset($_POST['request'])) {
         $accountType = $_POST['accountType'];
 
         //Update Status
-        $sql = "UPDATE account SET name = '$accountName', image = '$accountImage', address = '$accountAddress', state_id = '$accountState', bod = '$accountDOB',
+        $sql = "UPDATE account SET name = '$accountName', image = '$accountImage', address = '$accountAddress', state = '$accountState', bod = '$accountDOB',
         gender = '$accountGender', email = '$accountEmail', password = '$accountPassword', account_type = '$accountType' WHERE account_id = '$accountID'";
 
 
