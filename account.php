@@ -8,11 +8,9 @@ if (isset($_POST['request'])) {
 
     require_once "conn.php";
 
-    if (
-        $request == "login"
-        && isset($_POST['email']) && isset($_POST['password'])
-    ) {
+    if ($request == "login" && isset($_POST['email']) && isset($_POST['password'])) {
 
+        $account = array();
         $email = $_POST['email'];
         $password = $_POST['password'];
 
@@ -25,7 +23,6 @@ if (isset($_POST['request'])) {
             $status = "1";
         } else {
 
-            $account = array();
             while ($row = mysqli_fetch_assoc($result)) {
 
                 $image = $row['image'] . ".jpg";
@@ -36,15 +33,16 @@ if (isset($_POST['request'])) {
 
             $message = "account retrived success";
             $status = "0";
-
-            $json_body = array(
-                "data" => $account,
-                "message" => $message,
-                "status" => $status
-            );
-
-            echo $json = json_encode($json_body);
         }
+
+        $json_body = array(
+            "data" => $account,
+            "message" => $message,
+            "status" => $status
+        );
+
+        echo $json = json_encode($json_body);
+
     } else if (
         $request == "register"
         && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['accountType'])
@@ -55,6 +53,8 @@ if (isset($_POST['request'])) {
         $email = $_POST['email'];
         $password = $_POST['password'];
         $type = $_POST['accountType'];
+        $image = $id;
+        $date = date("Y-m-d");
 
         //check account
         $sql = "SELECT * FROM account where email = '$email'";
@@ -62,16 +62,23 @@ if (isset($_POST['request'])) {
         if (mysqli_num_rows($result) == 0) {
 
             //register
-            $sql = "insert into account(account_id, name, email, password, account_type) values('$id', '$name', '$email', '$password', '$type')";
+            $sql = "insert into account(account_id, name, image, dob, email, password, account_type) values('$id', '$name', '$image', $date, '$email', '$password', '$type')";
             $result = mysqli_query($conn, $sql);
 
-            if (!$result) {
+            $file = './image/account/' . $type . '.jpg';
+            $newfile = './Image/account/' . $id . '.jpg';
+
+            if (!copy($file, $newfile)) {
+                $message = "failed to save file";
+                $status = "-3";
+            } else if (!$result) {
                 $message = "Fail to register.";
                 $status = "-2";
             } else {
                 $message = "Register successfully";
                 $status = "0";
             }
+
         } else {
             $message = "This email has already been registered.";
             $status = "1";
@@ -102,7 +109,7 @@ if (isset($_POST['request'])) {
         $accountType = $_POST['accountType'];
 
         //Update Status
-        $sql = "UPDATE account SET name = '$accountName', image = '$accountImage', address = '$accountAddress', state_id = '$accountState', bod = '$accountDOB',
+        $sql = "UPDATE account SET name = '$accountName', image = '$accountImage', address = '$accountAddress', state = '$accountState', bod = '$accountDOB',
         gender = '$accountGender', email = '$accountEmail', password = '$accountPassword', account_type = '$accountType' WHERE account_id = '$accountID'";
 
 
@@ -127,6 +134,8 @@ if (isset($_POST['request'])) {
     require_once "conn.php";
 
     if ($request == "registerGetId" && isset($_GET['accountType'])) {
+        $type = $_GET['accountType'];
+
         $sql = "SELECT account_id FROM account where account_type = '$type' Order By created_at Desc LIMIT 1";
 
         $result = mysqli_query($conn, $sql);
