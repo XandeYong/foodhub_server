@@ -153,7 +153,7 @@ if (isset($_POST['request'])) {
 
             echo $json = json_encode($json_body);
         }
-    } else if ($request == "locationReport") {
+    } else if ($request == "intializedReport") {
         $sql = "SELECT `state`, `account_type` FROM `account` WHERE account_type != 'admin'";
 
         $result = mysqli_query($conn, $sql);
