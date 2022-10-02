@@ -56,13 +56,14 @@ if (isset($_POST['request'])) {
 
         //check account
         $sql = "SELECT * FROM account where email = '$email'";
-
-        if (!$conn->query($sql)) {
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) == 0) {
 
             //register
-            $sql = "insert into account(account_id, name, email, password, account_type) values('$id', '$name', '$email', '$password', '$account_type')";
+            $sql = "insert into account(account_id, name, email, password, account_type) values('$id', '$name', '$email', '$password', '$type')";
+            $result = mysqli_query($conn, $sql);
 
-            if (!$conn->query($sql)) {
+            if (!$result) {
                 $message = "Fail to register.";
                 $status = "-2";
             } else {
@@ -76,7 +77,7 @@ if (isset($_POST['request'])) {
 
         $json_body = array(
             "message" => $message,
-            "status" => $status
+            "status" => $status,
         );
 
         echo $json = json_encode($json_body);
@@ -118,6 +119,65 @@ if (isset($_POST['request'])) {
         echo $json = json_encode($json_body);
     }
 
+    $conn->close();
+} else if (isset($_GET['request'])) {
+    $request = $_GET['request'];
+    require_once "conn.php";
+
+    if ($request == "registerGetId" && isset($_GET['accountType'])) {
+        $sql = "SELECT account_id FROM account where account_type = '$type' Order By created_at Desc LIMIT 1";
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) <= 0) {
+            $message = "no data";
+            $status = "1";
+        } else {
+
+            $getID;
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                $getID = $row;
+            }
+
+            $message = "data retrived success";
+            $status = "0";
+
+            $json_body = array(
+                "data" => $getID,
+                "message" => $message,
+                "status" => $status
+            );
+
+            echo $json = json_encode($json_body);
+        }
+    } else if ($request == "locationReport") {
+        $sql = "SELECT `state`, `account_type` FROM `account` WHERE account_type != 'admin'";
+
+        $result = mysqli_query($conn, $sql);
+
+        if (mysqli_num_rows($result) <= 0) {
+            $message = "no data";
+            $status = "1";
+        } else {
+
+            $account = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $account[] = $row;
+            }
+
+            $message = "data retrived success";
+            $status = "0";
+
+            $json_body = array(
+                "data" => $account,
+                "message" => $message,
+                "status" => $status
+            );
+
+            echo $json = json_encode($json_body);
+        }
+    }
 
     $conn->close();
 }
