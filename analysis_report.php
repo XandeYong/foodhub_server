@@ -3,6 +3,7 @@
 if (isset($_GET['request'])) {
     $request = $_GET['request'];
     
+    $analysis_report = array();
     $message = "error";
     $status = "-1";
     
@@ -18,22 +19,21 @@ if (isset($_GET['request'])) {
             $status = "1";
         } else {
             
-            $analysis_report = array();
             while ($row = mysqli_fetch_assoc($result)) {
                 $analysis_report[] = $row;
             }
 
             $message = "data retrived success";
             $status = "0";
-
-            $json_body = array(
-                "data" => $analysis_report,
-                "message" => $message,
-                "status" => $status
-            );
-    
-            echo $json = json_encode($json_body);
         }
+
+        $json_body = array(
+            "data" => $analysis_report,
+            "message" => $message,
+            "status" => $status
+        );
+
+        echo $json = json_encode($json_body);
     }
 
     $conn->close();

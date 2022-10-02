@@ -10,6 +10,7 @@ if (isset($_POST['request'])) {
 
     if ($request == "login" && isset($_POST['email']) && isset($_POST['password'])) {
 
+        $account = array();
         $email = $_POST['email'];
         $password = $_POST['password'];
 
@@ -22,7 +23,6 @@ if (isset($_POST['request'])) {
             $status = "1";
         } else {
 
-            $account = array();
             while ($row = mysqli_fetch_assoc($result)) {
 
                 $image = $row['image'] . ".jpg";
@@ -33,15 +33,16 @@ if (isset($_POST['request'])) {
 
             $message = "account retrived success";
             $status = "0";
-
-            $json_body = array(
-                "data" => $account,
-                "message" => $message,
-                "status" => $status
-            );
-
-            echo $json = json_encode($json_body);
         }
+
+        $json_body = array(
+            "data" => $account,
+            "message" => $message,
+            "status" => $status
+        );
+
+        echo $json = json_encode($json_body);
+        
     } else if (
         $request == "register"
         && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['email']) && isset($_POST['password']) && isset($_POST['accountType'])
