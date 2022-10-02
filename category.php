@@ -103,7 +103,7 @@ if (isset($_GET['request'])) {
             $sql = "DELETE FROM category WHERE category_id = '$categoryID'";
             $result = mysqli_query($conn, $sql);
     
-            if ($result) {
+            if (!$result) {
                 $message = "Fail to delete from Remote DB";
                 $status = "-2";
             } else {
