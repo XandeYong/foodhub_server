@@ -8,13 +8,13 @@ if (isset($_POST['request'])) {
 
     require_once "conn.php";
 
-    if ($request == "login" && isset($_POST['email']) && isset($_POST['password'])) {
+    if ($request == "login" && isset($_POST['email'])) {
 
         $account = array();
         $email = $_POST['email'];
-        $password = $_POST['password'];
+        
 
-        $sql = "SELECT * FROM account where email = '$email' && password = '$password' LIMIT 1";
+        $sql = "SELECT * FROM account where email = '$email' LIMIT 1";
 
         $result = mysqli_query($conn, $sql);
 
